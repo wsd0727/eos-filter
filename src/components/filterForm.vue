@@ -183,29 +183,29 @@
     </div>
 
 
-    <eos-modal ref="eosModalRef">
+    <!-- <eos-modal ref="eosModalRef">
       <template #default>
-        <!-- <TablePage ref="TablePageRef" :menuID="openModalOptions?.page" dbClickType="emit"
-          :queryParamsBefore="openModalOptions?.params" @dbClick="TablePagedbClick" @closeModal="closeModal" /> -->
+        <TablePage ref="TablePageRef" :menuID="openModalOptions?.page" dbClickType="emit"
+          :queryParamsBefore="openModalOptions?.params" @dbClick="TablePagedbClick" @closeModal="closeModal" />
       </template>
       <template #footer>
         <el-button type="info" size="default" @click="closeModal">取消</el-button>
         <el-button type="primary" size="default" @click="handleConfirm">确定</el-button>
       </template>
-    </eos-modal>
+    </eos-modal> -->
   </div>
 </template>
 
 <script setup>
-import { watch } from "vue";
-import { useDict } from '@/utils/dict'
+// import { watch } from "vue";
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, } from 'vue';
+import { useDict } from '@/utils/dict.js'
 import { debounce } from "lodash-es"
 import { Search } from "@element-plus/icons-vue";
 import { deepClone } from "@/utils";
-import { eosModal } from "@eosine/form"
+// import { eosModal } from "@eosine/form"
 // import TablePage from "@/views/table/components/SingleTable/index.vue";
 // import TablePage from "@/components/SingleTable/index.vue";
-
 
 
 const { proxy } = getCurrentInstance();
@@ -697,9 +697,16 @@ const GET_ModalOption = config => {
 const openModalOptions = ref({})
 function openModal() {
   let options = GET_ModalOption(currentConfig.value)
+  console.log("🍍💓 ~ file: filterForm.vue:701 ~ openModal ~ currentConfig.value):", currentConfig.value)
+  console.log("🍍💓 ~ file: filterForm.vue:701 ~ openModal ~ options:", options)
   options.contnet = "table"
 
-  eosModalRef.value.open(options)
+  // eosModalRef.value.open(options)
+
+
+
+  emit("openModal", options)
+
 
   openModalOptions.value = options
   // emit("openModal", options)
@@ -726,8 +733,8 @@ const TablePagedbClick = (row) => {
   // props.formData.DEFAULTVAL = row.BILLNO
   // props.formData.DEFAULTVAL2 = row.VNAME
 
-  const { REVERFIELD } = currentConfig.value
-  props.formData.DEFAULTVAL = REVERFIELD ? row[REVERFIELD] : row.VNAME
+  const { REVERFIELD } = currentConfig.value.
+    props.formData.DEFAULTVAL = REVERFIELD ? row[REVERFIELD] : row.VNAME
 
   // if (Object.hasOwn(openModalOptions.value, '$formRef')) {
   //   openModalOptions.value.$formRef.update(openModalOptions.value._config, row);
@@ -1095,7 +1102,8 @@ onMounted(() => {
   // padding: 0 4px !important;
   padding: 0 !important;
 }
-:deep(.el-date-editor .el-range-separator){
+
+:deep(.el-date-editor .el-range-separator) {
   padding: 0 !important;
 
 }

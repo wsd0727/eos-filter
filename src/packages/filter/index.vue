@@ -18,7 +18,7 @@
         <FiltrationCom ref="filtrationComRef" :filterConfig="filterConfig" :filterArr="filterArr" class="oneLine-left"
           :style="{ height: FiltrationComHeight, maxWidth: binSize + 'px' }" @changeFilter="changeFilter"
           :chooseRadioObj @changeCurrentQueryList="changeCurrentQueryList" :settingArr="settingQueryList"
-          @inputEnter="searchBtn" />
+          @inputEnter="searchBtn" @openModal="openModal" />
         <div class="advancedQuery-rightBtn">
           <img @click="searchBtn" src="@/assets/images/icon/search.png" alt="">
           <vxe-pulldown ref="pulldownRef" popup-class-name="dropdown-table" transfer>
@@ -99,7 +99,10 @@ const props = defineProps({
   }
 });
 
+function openModal(options){
+    emit("openModal", options)
 
+}
 
 const showModal = ref(false);
 

@@ -11,7 +11,7 @@
                 @changeFilter="val => changeFilter(val, item, index)" /> -->
             <FilterForm :filterConfig="filterConfig" :filterVal="item" v-model:formData="currentQueryList[index]"
                 :ENABLESTATE="chooseRadioObj.ENABLESTATE" @changeFilter="val => changeFilter(val, item, index)"
-                @inputEnter="inputEnter" />
+                @inputEnter="inputEnter" @openModal="openModal" />
         </div>
 
     </div>
@@ -54,6 +54,11 @@ const currentQueryList = ref([])
 onMounted(() => {
     queryFormData.value = getFormValue(props.filterConfig.filterSeceletArr)
 })
+
+function openModal(options){
+    emit("openModal", options)
+
+}
 
 const inputEnter = () => {
     emit("inputEnter")

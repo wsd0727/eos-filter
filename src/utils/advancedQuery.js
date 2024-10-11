@@ -1,8 +1,7 @@
 // import request from '@/utils/request'
-import { computed, inject, reactive } from 'vue';
+// import { computed, inject, reactive } from 'vue';
 
-const request = inject('request')
-console.log("🍍💓 ~ file: advancedQuery.js:4 ~ request:", request)
+// const request = inject('request')
 
 //  新增方案
 // export function addPlan(data) {

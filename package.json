@@ -1,7 +1,7 @@
 {
   "name": "@eosine/filter",
   "private": false,
-  "version": "0.0.1",
+  "version": "0.0.3",
   "type": "module",
   "main": "dist/@eosine-filter.umd.cjs",
   "module": "dist/@eosine-filter.js",
