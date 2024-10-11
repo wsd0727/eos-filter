@@ -1,0 +1,213 @@
+// cover some element-ui styles
+body,
+html {
+  font-size: 12px !important;
+}
+:root {
+  --el-font-size-base: 12px !important;
+  --eos-base-font-size: 12px;
+  --el-component-size: 24px !important;
+  --eos-component-height: 24px;
+  --eos-form-font-size: 1.1em;
+  --el-messagebox-font-size: var(--eos-base-font-size) !important;
+}
+
+.el-breadcrumb__inner,
+.el-breadcrumb__inner a {
+  font-weight: 400 !important;
+}
+
+.el-upload {
+  input[type="file"] {
+    display: none !important;
+  }
+}
+
+.el-upload__input {
+  display: none;
+}
+
+.cell {
+  .el-tag {
+    margin-right: 0px;
+  }
+}
+
+.small-padding {
+  .cell {
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+}
+
+.fixed-width {
+  .el-button--mini {
+    padding: 7px 10px;
+    width: 60px;
+  }
+}
+
+.status-col {
+  .cell {
+    padding: 0 10px;
+    text-align: center;
+
+    .el-tag {
+      margin-right: 0px;
+    }
+  }
+}
+
+// to fixed https://github.com/ElemeFE/element/issues/2461
+.el-dialog {
+  transform: none;
+  left: 0;
+  position: relative;
+  margin: 0 auto;
+}
+
+// refine element ui upload
+.upload-container {
+  .el-upload {
+    width: 100%;
+
+    .el-upload-dragger {
+      width: 100%;
+      height: 200px;
+    }
+  }
+}
+
+// dropdown
+.el-dropdown-menu {
+  a {
+    display: block;
+  }
+}
+
+// fix date-picker ui bug in filter-item
+.el-range-editor.el-input__inner {
+  display: inline-flex !important;
+}
+
+// to fix el-date-picker css style
+.el-range-separator {
+  box-sizing: content-box;
+}
+
+.el-menu--collapse
+  > div
+  > .el-submenu
+  > .el-submenu__title
+  .el-submenu__icon-arrow {
+  display: none;
+}
+
+.el-dropdown .el-dropdown-link {
+  color: var(--el-color-primary) !important;
+}
+
+.brand-color,
+.bg-brand {
+  color: $--color-primary;
+}
+
+.danger-color,
+.bg-danger {
+  color: $--color-danger;
+}
+
+.waring-color,
+.bg-waring {
+  color: $--color-warning;
+}
+
+.success-color,
+.bg-success {
+  color: $--color-success;
+}
+
+.el-form-item--default {
+  --font-size: 12px !important;
+
+  .el-form-item__label {
+    padding: 0 5px 0 0;
+
+    -webkit-font-smoothing: antialiased;
+    /* Chrome, Safari, Opera */
+    -moz-osx-font-smoothing: grayscale;
+    /* Firefox */
+    text-rendering: optimizeLegibility;
+    /* 推荐用于其他浏览器 */
+  }
+}
+
+.el-select-dropdown__item {
+  max-width: 500px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  &.is-hovering,
+  &.is-selected {
+    color: var(--el-color-primary) !important;
+    background-color: var(--el-color-primary-light-9) !important;
+  }
+}
+.el-tree {
+  --el-fill-color-light: var(--el-color-primary-light-9) !important;
+  --el-tree-node-content-height: 28px !important;
+  ---el-tree-node-hover-bg-color: var(--el-color-primary-light-9) !important;
+}
+
+.select-options {
+  &.el-poper {
+    top: -10px !important;
+  }
+  .el-popper__arrow {
+    display: none !important;
+    opacity: 1;
+  }
+}
+.el-popper__arrow {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+.el-input-group__append button.el-button {
+  height: var(--eos-component-height);
+  padding: 3px 8px;
+}
+.el-select {
+  .el-select__wrapper {
+    font-size: var(--eos-base-font-size) !important;
+    padding: 0 8px;
+    min-height: var(--eos-component-height);
+    line-height: var(--eos-component-height);
+  }
+
+  .el-select__input {
+    height: var(--eos-component-height);
+  }
+  .el-select__selected-item {
+    font-size: var(--eos-form-font-size);
+  }
+}
+
+//test
+.el-select .el-select__selected-item,
+.eos-form-label,
+.el-input__inner,
+.el-tree-node__label,
+.tab-name,
+.el-button,
+.el-message-box {
+  font-size: var(--eos-form-font-size) !important;
+}
+.el-message-box__title,
+.el-message-box__message {
+  font-size: 1.1em;
+}
+.el-input-group__append {
+  padding: 0 10px !important;
+}

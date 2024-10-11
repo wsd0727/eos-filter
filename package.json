@@ -1,0 +1,32 @@
+{
+  "name": "@eosine/filter",
+  "private": false,
+  "version": "0.0.1",
+  "type": "module",
+  "main": "dist/@eosine-filter.umd.cjs",
+  "module": "dist/@eosine-filter.js",
+  "files": [
+    "dist/*"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:watch": "vite build --watch",
+    "preview": "vite preview",
+    "pushnpm": "npm publish --registry https://registry.npmjs.org"
+  },
+  "dependencies": {
+    "@eosine/form": "^0.1.36",
+    "element-plus": "^2.8.4",
+    "vue": "^3.5.10",
+    "vxe-table": "^4.7.85"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.1.4",
+    "sass": "^1.79.4",
+    "vite": "^5.4.8",
+    "vite-plugin-lazy-import": "^1.0.7"
+  }
+}
+
+

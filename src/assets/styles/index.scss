@@ -1,0 +1,318 @@
+@import "./variables.module.scss";
+@import "./mixin.scss";
+@import "./transition.scss";
+@import "./element-ui.scss";
+@import "./sidebar.scss";
+@import "./btn.scss";
+@import "./ruoyi.scss";
+@import "./theme.scss";
+
+body {
+  height: 100%;
+  margin: 0;
+  min-width: 1000px;
+  min-height: 500px;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  font-family: Microsoft YaHei;
+}
+
+html {
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#app {
+  height: 100%;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+.padding-content {
+  padding: 4px 0;
+}
+
+a:focus,
+a:active {
+  outline: none;
+}
+
+a,
+a:focus,
+a:hover {
+  cursor: pointer;
+  color: inherit;
+  text-decoration: none;
+}
+
+div:focus {
+  outline: none;
+}
+
+.fr {
+  float: right;
+}
+
+.fl {
+  float: left;
+}
+
+.pr-5 {
+  padding-right: 5px;
+}
+
+.pl-5 {
+  padding-left: 5px;
+}
+
+.block {
+  display: block;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.inlineBlock {
+  display: block;
+}
+
+.clearfix {
+  &:after {
+    visibility: hidden;
+    display: block;
+    font-size: 0;
+    content: " ";
+    clear: both;
+    height: 0;
+  }
+}
+
+aside {
+  background: #eef1f6;
+  padding: 8px 24px;
+  margin-bottom: 20px;
+  border-radius: 2px;
+  display: block;
+  line-height: 32px;
+  font-size: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+    Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  color: #2c3e50;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  a {
+    color: #337ab7;
+    cursor: pointer;
+
+    &:hover {
+      color: rgb(32, 160, 255);
+    }
+  }
+}
+
+//main-container全局样式
+.app-container {
+  padding: 20px;
+}
+
+.components-container {
+  margin: 30px 50px;
+  position: relative;
+}
+
+.pagination-container {
+  margin-top: 30px;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.sub-navbar {
+  height: 50px;
+  line-height: 50px;
+  position: relative;
+  width: 100%;
+  text-align: right;
+  padding-right: 20px;
+  transition: 600ms ease position;
+  background: linear-gradient(
+    90deg,
+    rgba(32, 182, 249, 1) 0%,
+    rgba(32, 182, 249, 1) 0%,
+    rgba(33, 120, 241, 1) 100%,
+    rgba(33, 120, 241, 1) 100%
+  );
+
+  .subtitle {
+    font-size: 20px;
+    color: #fff;
+  }
+
+  &.draft {
+    background: #d0d0d0;
+  }
+
+  &.deleted {
+    background: #d0d0d0;
+  }
+}
+
+.link-type,
+.link-type:focus {
+  color: #337ab7;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(32, 160, 255);
+  }
+}
+
+.filter-container {
+  padding-bottom: 10px;
+
+  .filter-item {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+  }
+}
+
+.vxe-modal--wrapper .vxe-modal--content {
+  padding: 0 !important;
+}
+
+/*滚动条整体部分*/
+.mytable-scrollbar ::-webkit-scrollbar,
+.vxe-modal--body ::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/*滚动条的轨道*/
+.mytable-scrollbar ::-webkit-scrollbar-track,
+.vxe-modal--body ::-webkit-scrollbar-track {
+  background-color: #ffffff;
+}
+
+/*滚动条里面的小方块，能向上向下移动*/
+.mytable-scrollbar ::-webkit-scrollbar-thumb,
+.vxe-modal--body ::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+}
+
+/* 弹窗内部增加边距 */
+.vxe-modal--content {
+  // background-color: #e8ecf6;
+  .custom-query,
+  .table-content {
+    padding: 0 4px;
+  }
+  .form-container {
+    background-color: #e8ecf6;
+    .eos-scrollbar {
+      padding: 0 10px;
+    }
+  }
+}
+
+.edit_table {
+  --el-border-radius-base: 0px !important;
+  .vxe-header--column {
+    .vxe-cell {
+      text-align: center;
+    }
+    .vxe-cell--title {
+      font-weight: normal;
+      color: #333;
+    }
+  }
+  .vxe-body--column {
+    padding: 0 5px !important;
+    &.col--valid-error {
+      border: 1px solid red !important;
+    }
+    &.col--active {
+      padding: 0 !important;
+    }
+    .vxe-cell {
+      width: 100% !important;
+    }
+  }
+  .vxe-body--column.col--active .vxe-cell {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .vxe-table--footer {
+    .footerRowClassName {
+      background: #f5f5f5;
+    }
+    .footer-cell-merge {
+      position: relative;
+      left: -1px;
+      border-right: 1px solid #ddd;
+      box-sizing: content-box;
+    }
+  }
+}
+
+// 修改 vxeselect 样式  只能放在全局 这个元素不在页面内，而是在整个页面中  样式放页面改没作用
+
+:deep(.vxe-select--panel) {
+  z-index: 999999 !important;
+  z-index: 9999 !important;
+}
+
+.vxe-select--panel-wrapper {
+  background-color: #f3f3f4 !important;
+}
+.vxe-select--panel-body {
+  background-color: #f3f3f4 !important;
+}
+.vxe-select-option {
+  &.is--hover {
+    background-color: #ccdcfc !important;
+  }
+  &.is--selected {
+    background-color: #508cc8 !important;
+    color: #fff !important;
+  }
+}
+
+.selectmodal {
+  --selectmodal-bg-color: #eff2f7;
+  background-color: var(--selectmodal-bg-color) !important;
+  border: 1px solid #ddd;
+  padding: 2px !important;
+  .vxe-pulldown--panel-wrapper {
+    background-color: var(--selectmodal-bg-color) !important;
+    padding: 1px !important;
+  }
+  &-tools {
+    width: 100%;
+    padding: 5px;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    font-size: 14px;
+    color: var(--el-color-primary);
+    &-item {
+      cursor: pointer;
+    }
+  }
+}
+
+.tc{
+  text-align: center;
+}
