@@ -10,7 +10,8 @@
         <div v-for="(item, index) in filterArr" :key="index" class="aloneFilter mb10">
             <div class="disflex ">
                 <FilterForm :filterConfig="filterConfig" :filterVal="item" class="mr10"
-                    v-model:formData="currentQueryList[index]" @changeFilter="val => changeFilter(val, item, index)" />
+                    v-model:formData="currentQueryList[index]" @changeFilter="val => changeFilter(val, item, index)"
+                    @openModal="openModal" :currentIndex="index" />
                 <div>
                     <el-icon v-if="index != 0" color="#b9c9fb" :size="20" class="delIcon cp"
                         @click="delFilterArr(item, index)">
@@ -28,7 +29,7 @@
             <vxe-select v-model="conditionValue" transfer style="width: 120px" placeholder="请输入条件" size="mini"
                 @change="changeCondition">
                 <vxe-option v-for="item in filterConfig.filterSeceletArr" :key="item.BILLNO" :label="item.LABEL"
-                    :value="item.BILLNO" ></vxe-option>
+                    :value="item.BILLNO"></vxe-option>
             </vxe-select>
             <!-- </el-col> -->
             <!-- <el-col :span="6"> -->
@@ -48,7 +49,7 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref,watch, onMounted,defineProps,defineEmits,defineExpose} from 'vue';
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose } from 'vue';
 const request = inject('request')
 import FilterForm from "./filterForm.vue"
 const emit = defineEmits('changeCondition', 'resetCondition', 'delFilterArr', 'changeCurrentQueryList', 'changeFilter')
@@ -74,6 +75,10 @@ const changeCondition = (e) => {
     let newArr = filterSeceletArr.value.filter(ele => ele.BILLNO == e)
     emit('changeCondition', newArr[0] || {})
 }
+function openModal(options){
+    emit("openModal", options)
+
+}
 
 const resetCondition = () => {
     conditionValue.value = null
@@ -81,7 +86,7 @@ const resetCondition = () => {
 }
 const delFilterArr = (item, index) => {
     // currentQueryList.value.splice(index, 1);
-   
+
     emit("delFilterArr", index)
 }
 
@@ -97,9 +102,9 @@ const changeFilter = (val, item, index) => {
 watch(() => props.filterArr, nArr => {
 
     nArr.forEach((item, index) => {
-        if(currentQueryList.value[index]){
+        if (currentQueryList.value[index]) {
             currentQueryList.value[index].FIELD = nArr[index].FIELD
-        }else{
+        } else {
             currentQueryList.value[index] = {}
             currentQueryList.value[index].FIELD = nArr[index].FIELD
         }
@@ -153,6 +158,7 @@ defineExpose({
     max-height: 450px;
     overflow-y: auto;
     z-index: 9999;
+
     .aloneFilter {
         // margin-bottom: 10px;
     }
@@ -166,15 +172,16 @@ defineExpose({
 }
 
 :deep(.vxe-input) {
-  border-color: #949eb5 !important;
-  // color: #12151A !important;
+    border-color: #949eb5 !important;
+    // color: #12151A !important;
 }
 
 :deep(.vxe-input--inner) {
-  color: #12151A !important;
-  &::placeholder{
-     color:#535B6A !important;
-  }
+    color: #12151A !important;
+
+    &::placeholder {
+        color: #535B6A !important;
+    }
 
 }
 </style>

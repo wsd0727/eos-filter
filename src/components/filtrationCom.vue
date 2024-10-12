@@ -11,7 +11,7 @@
                 @changeFilter="val => changeFilter(val, item, index)" /> -->
             <FilterForm :filterConfig="filterConfig" :filterVal="item" v-model:formData="currentQueryList[index]"
                 :ENABLESTATE="chooseRadioObj.ENABLESTATE" @changeFilter="val => changeFilter(val, item, index)"
-                @inputEnter="inputEnter" @openModal="openModal" />
+                @inputEnter="inputEnter" @openModal="openModal" :currentIndex="index" />
         </div>
 
     </div>

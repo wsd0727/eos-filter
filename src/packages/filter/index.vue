@@ -32,7 +32,8 @@
               <!-- 设置组件 -->
               <SettingFilter ref="settingFilterRef" :filterConfig="filterConfig" :filterArr="filterArr"
                 @changeCondition="changeCondition" @resetCondition="resetCondition" @delFilterArr="delFilterArr"
-                @changeFilter="changeFilter" @changeCurrentQueryList="settingChangeCurrentQueryList" />
+                @changeFilter="changeFilter" @changeCurrentQueryList="settingChangeCurrentQueryList"
+                @openModal="openSettingModal" />
               <el-divider />
               <div class="tr">
                 <el-button @click="clostPopver" size="small">取消</el-button>
@@ -61,7 +62,7 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref,watch, onMounted,defineProps,defineEmits,defineExpose} from 'vue';
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose } from 'vue';
 const request = inject('request')
 const resolution = inject('resolution')
 const storeModules = inject('storeModules')
@@ -96,12 +97,23 @@ const props = defineProps({
   showSaveBtn: {
     type: Boolean,
     default: true,
+  },
+  sonEosFilterObj: {
+    type: Object,
+    default: () => { },
   }
 });
+const currentOptions = ref({})
+function openModal(options) {
+  currentOptions.value = options
+  emit("openModal", options)
 
-function openModal(options){
-    emit("openModal", options)
+}
 
+const currentOptionsSetting = ref({})
+function openSettingModal(options) {
+  currentOptionsSetting.value = options
+  emit("openSettingModal", options)
 }
 
 const showModal = ref(false);
@@ -129,6 +141,7 @@ const closeShowModal = (obj) => {
     });
   }
 };
+const querySaveList = ref([]);
 
 const clickStatus = ref(1); // 1是点击外层查询  2 是点击设置的确定
 
@@ -169,6 +182,8 @@ const clickRadio = (item, type) => {
     settingQueryList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingFilterRef.value &&
       settingFilterRef.value.updateCurrentQueryList(res.RESULT);
+
+
   })
 
 
@@ -222,7 +237,25 @@ watch(
   { immediate: true }
 );
 
+watch(
+  () => props.sonEosFilterObj,
+  (value) => {
+    if (!value.DEFAULTVAL) return
 
+    let newArr = JSON.parse(JSON.stringify(querySaveList.value))
+    newArr[currentOptions.value.currentIndex].DEFAULTVAL = value?.DEFAULTVAL || ''
+    newArr[currentOptions.value.currentIndex].DEFAULTVAL2 = value?.DEFAULTVAL2 || ''
+
+    if (value.openModalType == 'search') {
+      filtrationComRef.value && filtrationComRef.value.updateCurrentQueryList(newArr);
+
+    } else if (value.openModalType == 'setting') {
+      settingFilterRef.value && settingFilterRef.value.updateCurrentQueryList(newArr);
+    }
+
+  },
+  { immediate: true }
+);
 const popoverRef = ref(null);
 const visible = ref(false);
 const clostPopver = () => {
@@ -236,7 +269,6 @@ const clickSettingBtn = () => {
 }
 
 
-const querySaveList = ref([]);
 const changeCurrentQueryList = (val) => {
   clickStatus.value = 1;
   querySaveList.value = JSON.parse(JSON.stringify(val));

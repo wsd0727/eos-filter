@@ -241,7 +241,11 @@ const props = defineProps({
   ENABLESTATE: {
     type: [Number, String],
     default: 0,
-  }
+  },
+  currentIndex:{
+    type: [Number, String],
+    default: 0,
+  },
 });
 
 
@@ -697,9 +701,8 @@ const GET_ModalOption = config => {
 const openModalOptions = ref({})
 function openModal() {
   let options = GET_ModalOption(currentConfig.value)
-  console.log("🍍💓 ~ file: filterForm.vue:701 ~ openModal ~ currentConfig.value):", currentConfig.value)
-  console.log("🍍💓 ~ file: filterForm.vue:701 ~ openModal ~ options:", options)
   options.contnet = "table"
+  options.currentIndex = props.currentIndex
 
   // eosModalRef.value.open(options)
 
