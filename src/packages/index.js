@@ -1,8 +1,12 @@
 
 import { computed, unref, getCurrentInstance } from 'vue'
 import eosFilter from "./filter"
+import eosConditionModule from "./conditionModule"
+
+
 const components = [
     eosFilter,
+    eosConditionModule
 ]
 
 // 用于按需导入
@@ -11,7 +15,7 @@ const setGlobalConfig = (option) => {
   Set_Provide(option, appContext)
 }
 
-export { eosFilter}
+export { eosFilter,eosConditionModule}
 
 const Set_Provide = (option, app) => {
   const context = computed(() => {

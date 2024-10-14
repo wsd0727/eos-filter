@@ -12,7 +12,7 @@
             <template #title>
                 <!-- <span class="modal-title"> 列表过滤-[{{ route.meta.title }}]
                 </span> -->
-                <span class="modal-title"> 列表过滤-[]
+                <span class="modal-title"> 列表过滤
                 </span>
             </template>
             <template #default>
