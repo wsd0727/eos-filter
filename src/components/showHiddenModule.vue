@@ -78,7 +78,7 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref,watch, onMounted,defineProps,defineEmits,defineExpose} from 'vue';
+import { computed, inject, reactive, ref,watch, onMounted,defineProps,defineEmits,defineExpose,getCurrentInstance} from 'vue';
 const request = inject('request')
 const { proxy } = getCurrentInstance();
 

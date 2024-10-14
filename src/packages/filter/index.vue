@@ -62,8 +62,10 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose } from 'vue';
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose,getCurrentInstance } from 'vue';
+console.log("🍍💓 ~ file: index.vue:66 ~ getCurrentInstance:", getCurrentInstance)
 const request = inject('request')
+
 const resolution = inject('resolution')
 const storeModules = inject('storeModules')
 
@@ -76,10 +78,10 @@ const { proxy } = getCurrentInstance();
 
 const AdcPaddingTop = computed(() => {
   return resolution.value.AdcPaddingTop
+
 })
 const AdcBottom = computed(() => {
   return resolution.value.AdcBottom
-
 })
 
 const showHiImg = ref(false)
@@ -240,7 +242,7 @@ watch(
 watch(
   () => props.sonEosFilterObj,
   (value) => {
-    if (!value.DEFAULTVAL) return
+    if (!value || !value.DEFAULTVAL) return
 
     let newArr = JSON.parse(JSON.stringify(querySaveList.value))
     newArr[currentOptions.value.currentIndex].DEFAULTVAL = value?.DEFAULTVAL || ''

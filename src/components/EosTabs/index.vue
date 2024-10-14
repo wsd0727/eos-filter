@@ -14,6 +14,8 @@
 </template>
 
 <script setup>
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose,getCurrentInstance } from 'vue';
+
 const props = defineProps({
   // 父组件传过来的值
   tabsList: {

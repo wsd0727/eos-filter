@@ -198,14 +198,12 @@
 
 <script setup>
 // import { watch } from "vue";
-import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, } from 'vue';
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits,getCurrentInstance } from 'vue';
 import { useDict } from '@/utils/dict.js'
 import { debounce } from "lodash-es"
 import { Search } from "@element-plus/icons-vue";
 import { deepClone } from "@/utils";
 // import { eosModal } from "@eosine/form"
-// import TablePage from "@/views/table/components/SingleTable/index.vue";
-// import TablePage from "@/components/SingleTable/index.vue";
 
 
 const { proxy } = getCurrentInstance();

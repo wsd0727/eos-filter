@@ -10,7 +10,9 @@
         <vxe-modal destroy-on-close v-model="showModals" id="formModal" :width="1070" resize storage transfer show-zoom
             @close="closeModal">
             <template #title>
-                <span class="modal-title"> 列表过滤-[{{ route.meta.title }}]
+                <!-- <span class="modal-title"> 列表过滤-[{{ route.meta.title }}]
+                </span> -->
+                <span class="modal-title"> 列表过滤-[]
                 </span>
             </template>
             <template #default>
@@ -175,9 +177,9 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref,watch, onMounted,defineProps,defineEmits,defineExpose} from 'vue';
+import { computed, inject, reactive, ref,watch, onMounted,defineProps,defineEmits,defineExpose,getCurrentInstance} from 'vue';
 const request = inject('request')
-
+import { useRoute,useRouter } from 'vue-router';
 const emit = defineEmits(["update:formData", "updateLeftList"]);
 // import { updatePlan, deleteBatchIds, getSubList } from "@/utils/advancedQuery";
 import ConditionModule from "./conditionModule.vue"
