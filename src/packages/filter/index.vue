@@ -21,7 +21,7 @@
           @inputEnter="searchBtn" @openModal="openModal" />
         <div class="advancedQuery-rightBtn">
           <img @click="searchBtn" src="@/assets/images/icon/search.png" alt="">
-          <vxe-pulldown ref="pulldownRef" popup-class-name="dropdown-table" transfer>
+          <vxe-pulldown ref="pulldownRef" popup-class-name="dropdown-table" transfer style="max-width: 400px;">
             <template #default>
               <img @click="clickSettingBtn" @mouseover="showHiImg = true" @mouseout="showHiImg = false" v-if="showHiImg"
                 style="transform: translateY(4px);" class="ml-10" src="@/assets/images/icon/setting-ac.png" alt="">
@@ -487,6 +487,7 @@ onMounted(() => {
     cursor: pointer;
     font-size: 14px;
     white-space: nowrap;
+    margin-left: 8px;
   }
 
   .oneLine {

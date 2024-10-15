@@ -23,10 +23,10 @@
                 </div>
             </div>
         </div>
-        <div class="disflex">
+        <div class="disflex" style="min-width: 430px;">
             <!-- <el-row :gutter="20">
             <el-col :span="6"> -->
-            <vxe-select v-model="conditionValue" transfer style="width: 120px" placeholder="请输入条件" size="mini"
+            <vxe-select v-model="conditionValue" transfer style="width: 100px" placeholder="请输入条件" size="mini"
                 @change="changeCondition">
                 <vxe-option v-for="item in filterConfig.filterSeceletArr" :key="item.BILLNO" :label="item.LABEL"
                     :value="item.BILLNO"></vxe-option>
@@ -72,7 +72,8 @@ const currentQueryList = ref([])
 const filterSeceletArr = computed(() => props.filterConfig.filterSeceletArr)
 const conditionValue = ref(null)
 const changeCondition = (e) => {
-    let newArr = filterSeceletArr.value.filter(ele => ele.BILLNO == e)
+    // let newArr = filterSeceletArr.value.filter(ele => ele.BILLNO == e)
+    let newArr = filterSeceletArr.value.filter(ele => ele.BILLNO == e.value)
     emit('changeCondition', newArr[0] || {})
 }
 function openModal(options){
@@ -112,7 +113,6 @@ watch(() => props.filterArr, nArr => {
 
 
     // currentQueryList.value = value.map(ele => {
-    // console.log("🚀 ~ watch ~ ele:", ele)
     //     if (ele.BILLNO) {
     //         // return ele
     //         return {
