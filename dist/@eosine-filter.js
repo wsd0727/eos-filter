@@ -926,7 +926,7 @@ const me = (e, c) => {
       ]);
     };
   }
-}, Be = /* @__PURE__ */ me(ol, [["__scopeId", "data-v-3e5d30cb"]]), sl = { class: "" }, rl = {
+}, Be = /* @__PURE__ */ me(ol, [["__scopeId", "data-v-c29392e0"]]), sl = { class: "" }, rl = {
   __name: "filtrationCom",
   props: {
     filterConfig: {
@@ -2758,7 +2758,7 @@ const pl = { class: "container" }, Dl = {
                     onClick: K,
                     onMouseover: s[0] || (s[0] = (de) => a.value = !0),
                     onMouseout: s[1] || (s[1] = (de) => a.value = !1),
-                    style: { transform: "translateY(4px)" },
+                    style: { transform: "translateY(4px)", "margin-left": "10px" },
                     class: "ml-10",
                     src: vt,
                     alt: ""
@@ -2767,7 +2767,7 @@ const pl = { class: "container" }, Dl = {
                     onClick: K,
                     onMouseover: s[2] || (s[2] = (de) => a.value = !0),
                     onMouseout: s[3] || (s[3] = (de) => a.value = !1),
-                    style: { transform: "translateY(4px)" },
+                    style: { transform: "translateY(4px)", "margin-left": "10px" },
                     class: "ml-10",
                     src: mt,
                     alt: ""
@@ -2852,7 +2852,7 @@ const pl = { class: "container" }, Dl = {
       ], 4);
     };
   }
-}, Ne = /* @__PURE__ */ me(bn, [["__scopeId", "data-v-141e0047"]]);
+}, Ne = /* @__PURE__ */ me(bn, [["__scopeId", "data-v-e0ade370"]]);
 Ne.name = "eos-filter";
 Ne.install = function(e) {
   e.component("eos-filter", Ne);

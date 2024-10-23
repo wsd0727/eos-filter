@@ -64,66 +64,8 @@
         </vxe-select>
       </template>
       <template v-else-if="currentConfig.CONTROLS == 'ExSelectModal'">
-        <!-- <el-popover placement="bottom" :width="600" trigger="click" :visible="inputVisible" :popper-style="{
-      padding: 0
-    }">
-          <template #reference>
-            <el-input v-model="formData.DEFAULTVAL" style="width: 100%" placeholder="请输入"
-              @input="val => ExSelectModalInput(val, currentConfig)" />
-          </template>
-
-<div class="disflex ExSelectModal-header">
-  <div class="ExSelectModal-left">
-    <div>代码</div>
-    <el-input style="width: 100%" placeholder="过滤条件" />
-  </div>
-  <div class="ExSelectModal-right">
-    <div>名称</div>
-    <el-input style="width: 100%" placeholder="过滤条件" />
-  </div>
-</div>
-<ul v-infinite-scroll="loadExSelectModalTable" class="infinite-list" style="overflow: auto;height: 200px;">
-  <li class="disflex ExSelectModal-header" v-for="(item, index) in tableData" :key="index">
-    <div class="ExSelectModal-left">
-      <div>{{ item.BILLNO }}</div>
-    </div>
-    <div class="ExSelectModal-right">
-      <div>{{ item.VNAME }}</div>
-    </div>
-  </li>
-</ul>
-<div class="disflex justify-sb ExSelectModal-footer">
-  <div>
-    <vxe-select transfer v-model="selectvalue2" placeholder="" style="width: 100px" class="mr10" :size="commonSize">
-      <vxe-option label="左匹配" value="1"></vxe-option>
-      <vxe-option label="右匹配" value="2"></vxe-option>
-      <vxe-option label="全量模糊" value="3"></vxe-option>
-    </vxe-select>
-    <vxe-select transfer v-model="selectvalue2" placeholder="" style="width: 100px" :size="commonSize">
-      <vxe-option label="全部" value="1"></vxe-option>
-      <vxe-option label="编码" value="2"></vxe-option>
-      <vxe-option label="名称" value="3"></vxe-option>
-    </vxe-select>
-  </div>
-  <div>
-    <vxe-select transfer v-model="selectvalue2" placeholder="" style="width: 60px" :size="commonSize">
-      <vxe-option label="5" value="1"></vxe-option>
-      <vxe-option label="10" value="2"></vxe-option>
-      <vxe-option label="20" value="3"></vxe-option>
-    </vxe-select>
-    <el-button link>
-      更多
-    </el-button>
-  </div>
-</div>
-</el-popover> -->
-
-        <!-- <eos-select-modal v-model="formData.DEFAULTVAL" :config="currentConfig"  @openModal="openModal"></eos-select-modal> -->
-
         <vxe-pulldown ref="DropdownRef" popup-class-name="selectmodal" destroy-on-close :transfer="true">
           <template #default>
-            <!-- <el-input v-model="formData.DEFAULTVAL" type="text" clearable @clear.stop="clearVal()"
-              @blur="RST_SelectTableData(currentConfig)" @keydown.stop="debounceGetData" @keydown.enter="inputEnter"> -->
             <el-input v-model="formData.DEFAULTVAL" type="text" clearable @clear="clearVal()"
               @keydown.stop="debounceGetData(false)" @keydown.enter="inputEnter">
               <template #append>
@@ -198,7 +140,7 @@
 
 <script setup>
 // import { watch } from "vue";
-import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits,getCurrentInstance } from 'vue';
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, getCurrentInstance } from 'vue';
 import { useDict } from '@/utils/dict.js'
 import { debounce } from "lodash-es"
 import { Search } from "@element-plus/icons-vue";
@@ -240,7 +182,7 @@ const props = defineProps({
     type: [Number, String],
     default: 0,
   },
-  currentIndex:{
+  currentIndex: {
     type: [Number, String],
     default: 0,
   },

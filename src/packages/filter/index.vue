@@ -24,9 +24,9 @@
           <vxe-pulldown ref="pulldownRef" popup-class-name="dropdown-table" transfer style="max-width: 400px;">
             <template #default>
               <img @click="clickSettingBtn" @mouseover="showHiImg = true" @mouseout="showHiImg = false" v-if="showHiImg"
-                style="transform: translateY(4px);" class="ml-10" src="@/assets/images/icon/setting-ac.png" alt="">
+                style="transform: translateY(4px);margin-left: 10px;" class="ml-10" src="@/assets/images/icon/setting-ac.png" alt="">
               <img @click="clickSettingBtn" @mouseover="showHiImg = true" @mouseout="showHiImg = false" v-else
-                style="transform: translateY(4px);" class="ml-10" src="@/assets/images/icon/setting.png" alt="">
+                style="transform: translateY(4px);margin-left: 10px;" class="ml-10" src="@/assets/images/icon/setting.png" alt="">
             </template>
             <template #dropdown>
               <!-- 设置组件 -->
