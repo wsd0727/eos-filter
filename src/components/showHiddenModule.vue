@@ -104,9 +104,6 @@ const changeallIS_SHOW = (e) => {
 }
 const changecheck = (val, row) => {
     let index = filedListClone.value.findIndex(item => item.BILLNO == row.BILLNO)
-    console.log("🚀 ~ file: showHiddenModule.vue:107 ~ changecheck ~ index:", index)
-    console.log("🚀 ~ file: showHiddenModule.vue:108 ~ changecheck ~ filedListClone.value[index]:", filedListClone.value[index])
-
     filedListClone.value[index].IS_SHOW = val
 
 }

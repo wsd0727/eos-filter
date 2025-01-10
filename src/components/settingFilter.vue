@@ -9,7 +9,7 @@
 
         <div v-for="(item, index) in filterArr" :key="index" class="aloneFilter mb10">
             <div class="disflex ">
-                <FilterForm :filterConfig="filterConfig" :filterVal="item" class="mr10"
+                <FilterForm :filterConfig="filterConfig" :filterVal="item" class="mr10" :isTransfer="false"
                     v-model:formData="currentQueryList[index]" @changeFilter="val => changeFilter(val, item, index)"
                     @openModal="openModal" :currentIndex="index" />
                 <div>

@@ -24,9 +24,11 @@
           <vxe-pulldown ref="pulldownRef" popup-class-name="dropdown-table" transfer style="max-width: 400px;">
             <template #default>
               <img @click="clickSettingBtn" @mouseover="showHiImg = true" @mouseout="showHiImg = false" v-if="showHiImg"
-                style="transform: translateY(4px);margin-left: 10px;" class="ml-10" src="@/assets/images/icon/setting-ac.png" alt="">
+                style="transform: translateY(4px);margin-left: 10px;" class="ml-10"
+                src="@/assets/images/icon/setting-ac.png" alt="">
               <img @click="clickSettingBtn" @mouseover="showHiImg = true" @mouseout="showHiImg = false" v-else
-                style="transform: translateY(4px);margin-left: 10px;" class="ml-10" src="@/assets/images/icon/setting.png" alt="">
+                style="transform: translateY(4px);margin-left: 10px;" class="ml-10"
+                src="@/assets/images/icon/setting.png" alt="">
             </template>
             <template #dropdown>
               <!-- 设置组件 -->
@@ -62,8 +64,7 @@
 </template>
 
 <script setup>
-import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose,getCurrentInstance } from 'vue';
-console.log("🍍💓 ~ file: index.vue:66 ~ getCurrentInstance:", getCurrentInstance)
+import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineEmits, defineExpose, getCurrentInstance } from 'vue';
 const request = inject('request')
 
 const resolution = inject('resolution')
@@ -105,6 +106,7 @@ const props = defineProps({
     default: () => { },
   }
 });
+
 const currentOptions = ref({})
 function openModal(options) {
   currentOptions.value = options
@@ -185,7 +187,8 @@ const clickRadio = (item, type) => {
     settingFilterRef.value &&
       settingFilterRef.value.updateCurrentQueryList(res.RESULT);
 
-
+    //如没有值，代表走的财旺新写的，只能从subLise 接口拿数据给
+    if (filterConfig.value.filterSeceletArr.length == 0) filterConfig.value.filterSeceletArr = JSON.parse(JSON.stringify(filterArr.value))
   })
 
 
@@ -203,6 +206,7 @@ const clickRadio = (item, type) => {
 // 查询按钮事件
 function searchBtn() {
   let QUERYS = querySaveList.value.map((ele) => {
+    // debugger
     return {
       FIELD: ele.FIELD,
       QUERYTYPE: ele.QUERYTYPE,
@@ -215,7 +219,6 @@ function searchBtn() {
       QRYSUF: ele.QRYSUF,
     }
   });
-
   emit("handleCustomPlan", {
     type: "2",
     PROGRAMID: chooseRadioVal.value,
@@ -397,6 +400,7 @@ const changeCondition = (e) => {
 };
 const resetCondition = () => {
   filterArr.value = JSON.parse(JSON.stringify(defaultFilterArr.value));
+  pulldownRef.value.hidePanel()
 };
 // 删除
 const delFilterArr = (index) => {
@@ -408,6 +412,7 @@ watch(
   () => props.menuID,
   (value) => {
     chooseRadioVal.value = null
+
     getPlanList()
   },
   { immediate: true }

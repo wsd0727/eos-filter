@@ -17,8 +17,8 @@
     </div>
 
     <div class="firstSelect mr10">
-      <vxe-select transfer v-model="formData.FIELD" placeholder="请选择" style="width: 100px" :size="commonSize"
-        @change="changeFilter" :disabled="computedIsDisabled(formData.FIELD)">
+      <vxe-select :transfer="isTransfer" v-model="formData.FIELD" placeholder="请选择" style="width: 100px"
+        :size="commonSize" @change="changeFilter" :disabled="computedIsDisabled(formData.FIELD)">
         <vxe-option v-for="item in filterSeceletArrs" :key="item.FIELD" :label="item.LABEL"
           :value="item.FIELD"></vxe-option>
       </vxe-select>
@@ -186,6 +186,10 @@ const props = defineProps({
     type: [Number, String],
     default: 0,
   },
+  isTransfer: {  // 下拉是否需要穿透功能
+    type: Boolean,
+    default: true,
+  }
 });
 
 

@@ -318,7 +318,7 @@ const chooseTab = (item) => {
 
 const save = () => {
     if (!choosePlanObj.value.BILLNO) return proxy.$modal.msgError(`请选择方案!`);
-    if (choosePlanObj.value.VTYPE == '0') return proxy.$modal.msgError(`默认方案不支持!`);
+    if (choosePlanObj.value.VTYPE == '0') return proxy.$modal.msgError(`系统方案不允许修改!`);
     saveAsForm.value = JSON.parse(JSON.stringify(choosePlanObj.value))
 
     let QUERYS = []
@@ -509,7 +509,7 @@ const savePlanLeft = () => {
 
 const clickUpdate = () => {
     if (!choosePlanObj.value.BILLNO) return proxy.$modal.msgError(`请选择方案!`);
-    if (choosePlanObj.value.VTYPE == '0') return proxy.$modal.msgError(`默认方案不支持修改!`);
+    if (choosePlanObj.value.VTYPE == '0') return proxy.$modal.msgError(`系统方案不允许修改!`);
     saveAsForm.value = JSON.parse(JSON.stringify(choosePlanObj.value))
     saveAsModal.value = true
 
