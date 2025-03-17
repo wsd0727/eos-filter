@@ -63,6 +63,37 @@
           <vxe-option v-for="item in EnumArr" :key="item.VALUE" :label="item.LABEL" :value="item.VALUE"></vxe-option>
         </vxe-select>
       </template>
+
+      <!-- ExSelectGroup 分组 树 选择  -->
+      <template v-else-if="currentConfig.CONTROLS == 'ExSelectGroup'">
+        <el-tree-select v-model="formData.DEFAULTVAL" :check-strictly="selectGroupStage(currentConfig)" clearable
+          filterable remote-show-suffix remote default-expand-all
+          :remote-method="val => SelectQuery(val, currentConfig)" :data="SelectOptions[currentConfig.FIELD]"
+          @focus="SelectFocus(currentConfig)" @change="(val) => SelectChange(currentConfig, val)"
+          @clear="SelectChange(currentConfig, null)" style="width: 100%" :render-after-expand="false" :placeholder="' '"
+          :props="{ label: 'LABEL', children: 'CHILDREN' }" value-key="VALUE" highlightCurrent />
+      </template>
+
+      <!-- ExSelectMultiple ??? 下拉枚举多选 -->
+      <template v-else-if="currentConfig.CONTROLS == 'ExSelectMultiple'">
+        <el-select v-model="formData.DEFAULTVAL2" clearable multiple collapse-tags collapse-tags-tooltip
+          popper-class="pop-bg-w" style="width: 100%" :teleported="true"
+          @change="(val) => SelectChange(currentConfig, val)" @clear="SelectChange(currentConfig, null)"
+          placeholder=" ">
+          <el-option v-for="item in EnumArr" :key="item.VALUE" :label="item.LABEL" :value="item.VALUE" />
+        </el-select>
+      </template>
+      <!-- ExSelectSearch 下拉查询 -->
+      <template v-else-if="currentConfig.CONTROLS == 'ExSelectSearch'">
+        <el-select v-model="formData.DEFAULTVAL" clearable filterable remote remote-show-suffix
+          :remote-method="(val) => SelectQuery(val, currentConfig)" :allow-create="selectCreated(currentConfig.SLOTCFG)"
+          placeholder=" " style="width: 100%" @focus="SelectFocus(currentConfig)"
+          @change="(val) => SelectChange(currentConfig, val)" @clear="SelectChange(currentConfig, null)">
+          <el-option v-for="item in SelectOptions?.[currentConfig.FIELD]" :key="item.VALUE" :label="item.LABEL"
+            :value="item.VALUE" style="max-width:300px" />
+        </el-select>
+      </template>
+
       <template v-else-if="currentConfig.CONTROLS == 'ExSelectModal'">
         <vxe-pulldown ref="DropdownRef" popup-class-name="selectmodal" destroy-on-close :transfer="true">
           <template #default>
@@ -90,6 +121,7 @@
         </vxe-pulldown>
 
       </template>
+
       <template v-else>
         <el-input v-model="formData.DEFAULTVAL" style="width: 100%" placeholder="输入关键字后回车查询"
           @keyup.enter="inputEnter" />
@@ -223,7 +255,7 @@ watch(
   () => props.filterVal,
   (value) => {
     selectvalue.value = value.BILLNO;
-    if (value.CONTROLS == "ExSelect") {
+    if (value.CONTROLS == "ExSelect" || value.CONTROLS == "ExSelectMultiple") {
       if (value.OTHER &&
         value.OTHER.indexOf("${") === 0 &&
         value.OTHER.charAt(value.OTHER.length - 1) == "}"
@@ -611,7 +643,7 @@ watch(() => props.formData.QUERYTYPE, value => {
 const GET_ModalOption = config => {
   let { LABEL, SLOTCFG, OTHER } = config;
   let width = "70%", height = "60%"
-  if (SLOTCFG == "") return console.error("Err:@eosine/form:ModalConfig:配置错误");
+  if (!SLOTCFG || SLOTCFG == "") return console.error("Err:@eosine/form:ModalConfig:配置错误");
   let ids = []
   try {
     let JsonSLOTCFG = JSON.parse(SLOTCFG);
@@ -673,6 +705,219 @@ function openModal() {
 const closeModal = () => {
   eosModalRef.value.close()
 }
+
+
+// Select组件 相关
+// selectGroup 节点是否可选
+const selectGroupStage = computed(config => {
+  return config => {
+    try {
+      let { SLOTCFG } = config
+      return !SLOTCFG.includes('"selectStage":false')
+    } catch (error) {
+      return true
+    }
+  }
+})
+// 是否启用 selectSearch 的自新建功能
+const selectCreated = computed(config => {
+  return config => {
+    try {
+      if (!config) return false;
+      return config.includes('CREATED')
+    } catch (error) {
+      return false
+    }
+  }
+})
+const SelectFocus = (config) => {
+  // let { FIELD } = config;
+  // if (!SelectOptions.value[FIELD] || SelectOptions.value[FIELD].length) return
+  SelectQuery("", config);
+}
+const SelectQuery = (keyword = undefined, config) => {
+  if (keyword == undefined) return
+  let { FIELD, OTHER } = config;
+  if (OTHER == "") return;
+  let { url, data } = ParseOtherConfig(OTHER);
+  if (url == "") return;
+  SelectLoading.value = true;
+  proxy.request({
+    url: url,
+    method: "post",
+    data: {
+      KEYWORD: keyword,
+      // MODULEID: MENUID,
+      ...data,
+    },
+    headers: {
+      repeatSubmit: false,
+    },
+  }).then(({ RESULT }) => {
+    SelectOptions.value[FIELD] = RESULT;
+  }).catch(() => {
+    SelectOptions.value[FIELD] = [];
+  }).finally(() => {
+    SelectLoading.value = false;
+  });
+};
+
+
+const SelectChange = (config, val) => {
+  const { FIELD, CONTROLS, OTHER, SLOT, REVERFIELD } = config;
+  if (CONTROLS != 'ExSelect' && CONTROLS != 'ExSelectMultiple') {
+    ParseOtherConfig(OTHER)
+  } else {
+    SelectValueTo.value = []
+  }
+  /** 表格弹窗 清空历史选择数据 */
+  if (CONTROLS == 'ExSelectModal' || CONTROLS == 'ExSelectTable' && val == null) delete SelectTableSetData.value[FIELD]
+
+  let data = Array.isArray(val) ? [] : null;
+  if (val != "" && val != null) {
+    switch (CONTROLS) {
+      // case "ExSelect":
+      //   data = EnumData.value?.[FIELD].find((el) => el.VALUE == val);
+      //   break;
+      case "ExSelectMultiple":
+        var arr = [];
+        for (let i = 0; i < val.length; i++) {
+          const el = val[i];
+          let Di = EnumArr.value?.find((al) => al.VALUE == el);
+          arr.push(Di);
+        }
+        data = arr;
+        setSelectMutipleValue(FIELD, val);
+        break;
+      case "ExSelectSearch":
+        if (config.SLOTCFG && config.SLOTCFG.includes('CREATED')) {
+          data = SelectOptions.value[FIELD].find((el) => el.VALUE == val) == null ? { LABEL: val, VALUE: val } : SelectOptions.value[FIELD].find((el) => el.VALUE == val);
+        } else {
+          data = SelectOptions.value[FIELD].find((el) => el.VALUE == val);
+        }
+        break;
+      // case "ExSelectMutiple":
+      //   var arr = [];
+      //   for (let i = 0; i < val.length; i++) {
+      //     const el = val[i];
+      //     let Di = SelectOptions.value[FIELD].find((al) => al.VALUE == el);
+      //     arr.push(Di);
+      //   }
+      //   data = arr;
+      //   setSelectMutipleValue(FIELD, val);
+      //   break;
+      case "ExSelectGroup":
+        data = treeFind(SelectOptions.value[FIELD], (el) => el.VALUE == val);
+        break;
+      // case "ExRegion":
+      //   var arr = [];
+      //   for (let i = 0; i < val.length; i++) {
+      //     const el = val[i];
+      //     let Di = treeFind(SelectOptions.value[FIELD], (al) => al.VALUE == el);
+      //     arr.push(Di);
+      //   }
+      //   data = arr;
+      //   setSelectMutipleValue(FIELD, val);
+      //   break;
+      // case "ExArea":
+      //   let [province, city, county] = val;
+      //   let areaData = {
+      //     data: val.join(","),
+      //     province,
+      //     provinceName: treeFind(optionsRegion.value, (al) => al.value == province).label,
+      //     city,
+      //     cityName: treeFind(optionsRegion.value, (al) => al.value == city).label,
+      //     county,
+      //     countyName: county != undefined ? treeFind(optionsRegion.value, (al) => al.value == county).label : undefined,
+      //   };
+      //   areaData.dataName = [areaData.provinceName, areaData.cityName, areaData.countyName].join(",")
+      //   props.formData[FIELD] = areaData.data
+      //   data = areaData;
+      //   break;
+      // case "ExSelectTable":
+      // case "ExSelectModal":
+      //   data = val;
+      //   SelectTableSetData.value[FIELD] = deepClone(val)
+      //   props.formData[FIELD] = val == null ? '' : Array.isArray(val) ? val.map(el => el?.BILLNO).join(",") : val?.BILLNO
+      //   setTimeout(() => {
+      //     proxy.$refs[`${FIELD}Ref`][0].hidePanel();
+      //     modalConfig.open = false;
+      //   }, 200);
+      //   break;
+      // case "ExModalTable":
+      //   data = val;
+      //   props.formData[FIELD] = val == null ? '' : val?.BILLNO
+      //   setTimeout(() => {
+      //     modalConfig.open = false;
+      //   }, 200);
+      //   break;
+    }
+  } else {
+    setSelectMutipleValue(FIELD, []);
+  }
+  if (REVERFIELD && (CONTROLS == 'ExSelect' || CONTROLS == 'ExSelectMultiple')) props.formData[REVERFIELD] = DictLabels(EnumData.value?.[FIELD], val) || ""; // 给字典回填名称
+  if (config.LINKAGE) {
+    !config.LINKAGE.includes('COPYTO') ? cleanEvent(config) : null;
+    SET_ValueSYNC(config);
+    numberBlur(config)
+    DateCalc(config);
+    SelectChangeAfter(config, val)
+  }
+
+
+
+  return
+  setSelectValue(data);
+  ruleFormRef.value.clearValidate([FIELD]);
+  emit("select", {
+    id: FIELD,
+    query: SLOT == 1 ? true : false,
+    config,
+    value: val,
+    data,
+    valueTo: SelectValueTo.value,
+  });
+};
+
+// 查找树结构中的数据
+function treeFind(tree, func, found = { value: false }) {
+  for (const data of tree) {
+    if (func(data)) {
+      found.value = true;
+      return data;
+    }
+    if (data.CHILDREN || data.children) {
+      const res = treeFind(data.CHILDREN || data.children, func, found);
+      if (res) return res;
+      if (found.value) found.value = false;
+    }
+  }
+  return null;
+}
+
+// 多选组件 回写值
+const setSelectMutipleValue = (id, val) => {
+  props.formData.DEFAULTVAL = val.join(",")
+};
+// 根据OTHER赋值
+const setSelectValue = (data) => {
+  if (!SelectValueTo.value || SelectValueTo.value.length === 0) return;
+  SelectValueTo.value.forEach((item) => {
+    const { k: key, v: value } = item;
+    if (data != null) {
+      if (Array.isArray(data)) {
+        props.formData[key] = data.length > 0 ? data.map((el) => el[value]).join(",") : "";
+      } else {
+        props.formData[key] = data[value];
+      }
+    } else {
+      props.formData[key] = "";
+    }
+    ruleFormRef.value.clearValidate([key]);
+  });
+  SelectValueTo.value = [];
+};
+
 
 /** 表格页面 双击 */
 const TablePagedbClick = (row) => {
