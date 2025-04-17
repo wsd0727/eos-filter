@@ -33,12 +33,29 @@
     </div>
 
     <div style="width: 160px">
-      <template
-        v-if="currentConfig.CONTROLS == 'ExDateRange' || currentConfig.QUERYTYPE == 'DateRange' || currentConfig.QUERYTYPE == 'Between' || currentConfig.QUERYTYPE == 'NotBetween'">
+      <template v-if="currentConfig.QUERYTYPE == 'Between' || currentConfig.QUERYTYPE == 'NotBetween'">
+        <!-- 吕 2025 4月17日  会议室 -->
+        <el-date-picker v-if="currentConfig.CONTROLS == 'ExDateTimeRange'" v-model="formData.DEFAULTVALArr" clearable
+          unlink-panels type="datetimerange" range-separator="至" value-format="YYYY-MM-DD HH:mm:ss" style="width: 100%"
+          @change="(v) => DateChange(v)" @clear="DateChange(null)" />
+
+        <el-date-picker v-else v-model="formData.DEFAULTVALArr" unlink-panels type="daterange" clearable
+          value-format="YYYY-MM-DD" range-separator="至" style="width: 100%" placeholder="请选择"
+          @change="(v) => DateChange(v)" @clear="DateChange(null)" />
+      </template>
+
+      <template v-else-if="currentConfig.CONTROLS == 'ExDateRange'">
         <el-date-picker v-model="formData.DEFAULTVALArr" unlink-panels type="daterange" clearable
           value-format="YYYY-MM-DD" range-separator="至" style="width: 100%" placeholder="请选择"
           @change="(v) => DateChange(v)" @clear="DateChange(null)" />
       </template>
+
+      <template v-else-if="currentConfig.CONTROLS == 'ExDateTimeRange'">
+        <el-date-picker  v-model="formData.DEFAULTVALArr" clearable
+          unlink-panels type="datetimerange" range-separator="至" value-format="YYYY-MM-DD HH:mm:ss" style="width: 100%"
+          @change="(v) => DateChange(v)" @clear="DateChange(null)" />
+      </template>
+
       <template v-else-if="showDateType == '0' || showDateType == '1'">
         <el-input v-model="formData.DEFAULTVAL" style="width: 100%" placeholder="请输入"
           :disabled="showDateType == '0' ? true : false" type="number" />
@@ -52,11 +69,11 @@
         <el-date-picker v-model="formData.DEFAULTVAL" clearable type="datetime" value-format="YYYY-MM-DD HH:mm:ss"
           style="width: 100%" />
       </template>
-      <template v-else-if="currentConfig.CONTROLS == 'ExDateTimeRange'">
+      <!-- <template v-else-if="currentConfig.CONTROLS == 'ExDateTimeRange'">
         <el-date-picker v-model="formData.DEFAULTVALArr" clearable unlink-panels type="datetimerange"
           range-separator="至" value-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" @change="(v) => DateChange(v)"
           @clear="DateChange(null)" />
-      </template>
+      </template> -->
       <template v-else-if="currentConfig.CONTROLS == 'ExSelect'">
         <vxe-select transfer placeholder="请选择" v-model="formData.DEFAULTVAL" clearable style="width: 100%"
           :size="commonSize">
@@ -660,6 +677,9 @@ const GET_ModalOption = config => {
     width = wh[0];
     height = wh[1];
   }
+  if (width.includes('%')) width = percentToPx(width, window.innerWidth)
+  if (height.includes('%')) height = percentToPx(height, window.innerHeight)
+
   let options = {
     _config: deepClone(config),
     title: LABEL,
@@ -672,6 +692,17 @@ const GET_ModalOption = config => {
     }
   }
   return options
+}
+
+function percentToPx(percent, containerWidth) {
+  if (typeof percent !== "string" || !percent.endsWith("%")) {
+    return percent
+  }
+  const percentage = parseFloat(percent) / 100
+  const pxValue = parseInt(percentage * containerWidth)
+  return pxValue
+
+
 }
 
 const openModalOptions = ref({})
