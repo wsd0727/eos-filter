@@ -38,7 +38,7 @@
                   @changeFilter="changeFilter" @changeCurrentQueryList="settingChangeCurrentQueryList"
                   @openModal="openSettingModal" />
                 <el-divider />
-                <div class="tr">
+                <div class="tr" style="padding: 0 10px 10px 0 ;">
                   <el-button @click="clostPopver" size="small">取消</el-button>
                   <el-button type="primary" @click="clostPopver" size="small">确定</el-button>
                 </div>
