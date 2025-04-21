@@ -32,14 +32,16 @@
             </template>
             <template #dropdown>
               <!-- 设置组件 -->
-              <SettingFilter ref="settingFilterRef" :filterConfig="filterConfig" :filterArr="filterArr"
-                @changeCondition="changeCondition" @resetCondition="resetCondition" @delFilterArr="delFilterArr"
-                @changeFilter="changeFilter" @changeCurrentQueryList="settingChangeCurrentQueryList"
-                @openModal="openSettingModal" />
-              <el-divider />
-              <div class="tr">
-                <el-button @click="clostPopver" size="small">取消</el-button>
-                <el-button type="primary" @click="clostPopver" size="small">确定</el-button>
+              <div style="border: 1px solid #ccc;">
+                <SettingFilter ref="settingFilterRef" :filterConfig="filterConfig" :filterArr="filterArr"
+                  @changeCondition="changeCondition" @resetCondition="resetCondition" @delFilterArr="delFilterArr"
+                  @changeFilter="changeFilter" @changeCurrentQueryList="settingChangeCurrentQueryList"
+                  @openModal="openSettingModal" />
+                <el-divider />
+                <div class="tr">
+                  <el-button @click="clostPopver" size="small">取消</el-button>
+                  <el-button type="primary" @click="clostPopver" size="small">确定</el-button>
+                </div>
               </div>
             </template>
           </vxe-pulldown>
@@ -589,4 +591,8 @@ onMounted(() => {
 :deep(.el-select__placeholder.is-transparent) {
   color: #535B6A !important;
 }
-</style>
+
+
+// :deep(.vxe-pulldown--panel-wrapper){
+//   border: 1px solid #ccc !important;
+// }</style>
