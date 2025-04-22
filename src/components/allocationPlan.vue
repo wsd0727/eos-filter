@@ -7,7 +7,7 @@
 <template>
     <div class="container">
 
-        <vxe-modal destroy-on-close v-model="showModals" id="formModal" :width="1070" resize storage transfer show-zoom
+        <vxe-modal destroy-on-close v-model="showModals" id="formModal" :width="1070" :height="600" min-width="1070px" min-height="600px"  resize transfer show-zoom
             @close="closeModal">
             <template #title>
                 <!-- <span class="modal-title"> 列表过滤-[{{ route.meta.title }}]

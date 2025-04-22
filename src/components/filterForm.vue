@@ -677,6 +677,7 @@ const GET_ModalOption = config => {
     width = wh[0];
     height = wh[1];
   }
+  
   if (width.includes('%')) width = percentToPx(width, window.innerWidth)
   if (height.includes('%')) height = percentToPx(height, window.innerHeight)
 
@@ -700,8 +701,8 @@ function percentToPx(percent, containerWidth) {
   }
   const percentage = parseFloat(percent) / 100
   const pxValue = parseInt(percentage * containerWidth)
-  return pxValue
-
+  return pxValue+'px'
+  
 
 }
 
