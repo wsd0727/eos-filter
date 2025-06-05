@@ -51,9 +51,9 @@
       </template>
 
       <template v-else-if="currentConfig.CONTROLS == 'ExDateTimeRange'">
-        <el-date-picker  v-model="formData.DEFAULTVALArr" clearable
-          unlink-panels type="datetimerange" range-separator="至" value-format="YYYY-MM-DD HH:mm:ss" style="width: 100%"
-          @change="(v) => DateChange(v)" @clear="DateChange(null)" />
+        <el-date-picker v-model="formData.DEFAULTVALArr" clearable unlink-panels type="datetimerange"
+          range-separator="至" value-format="YYYY-MM-DD HH:mm:ss" style="width: 100%" @change="(v) => DateChange(v)"
+          @clear="DateChange(null)" />
       </template>
 
       <template v-else-if="showDateType == '0' || showDateType == '1'">
@@ -193,7 +193,7 @@ import { computed, inject, reactive, ref, watch, onMounted, defineProps, defineE
 import { useDict } from '@/utils/dict.js'
 import { debounce } from "lodash-es"
 import { Search } from "@element-plus/icons-vue";
-import { deepClone } from "@/utils";
+import { deepClone, initDate } from "@/utils";
 // import { eosModal } from "@eosine/form"
 
 
@@ -677,7 +677,7 @@ const GET_ModalOption = config => {
     width = wh[0];
     height = wh[1];
   }
-  
+
   if (width.includes('%')) width = percentToPx(width, window.innerWidth)
   if (height.includes('%')) height = percentToPx(height, window.innerHeight)
 
@@ -701,8 +701,8 @@ function percentToPx(percent, containerWidth) {
   }
   const percentage = parseFloat(percent) / 100
   const pxValue = parseInt(percentage * containerWidth)
-  return pxValue+'px'
-  
+  return pxValue + 'px'
+
 
 }
 
@@ -1001,9 +1001,25 @@ const showVcodeList = () => {
 const setDataArrs = () => {
   const validControls = ["ExSelectMultiple", "ExSelectMutiple", "ExCheckbox", "ExRegion", "ExArea", "ExDateRange", "ExDateTimeRange", "ExDate"];
   if (validControls.includes(currentConfig.value.CONTROLS) && props.formData.DEFAULTVAL && props.formData.DEFAULTVAL != '') {
-    props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+    console.log("🍍💓🪵🔮💓 ~ setDataArrs ~ props.formData.DEFAULTVAL:", props.formData.DEFAULTVAL)
+
+    switch (currentConfig.value.CONTROLS) {
+      case 'ExDateTimeRange':
+        let [sD, eD] = initDate(props.formData.DEFAULTVAL ? props.formData.DEFAULTVAL : 0, 'datetimearr');
+        // a.EnumData[FIELD] = sD ? [sD, eD] : [];
+        // a[FIELD] = sD ? `${sD},${eD}` : '';
+        // a[FIELD + 'Arr'] = sD ? [sD, eD] : [];
+        props.formData.DEFAULTVALArr = sD ? [sD, eD] : []
+        props.formData.DEFAULTVAL = sD ? `${sD},${eD}` : ''
+        break;
+      default:
+        props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+        break;
+    }
   }
 };
+
+
 
 // 时间确认事件
 function DateChange(val) {

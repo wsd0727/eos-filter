@@ -590,7 +590,7 @@ function getDictData(FIELD, OTHER) {
   return { _getDICT, EnumData }
 }
 
-function initDate(str, type = "str", dateType = "date") {
+export function initDate(str, type = "str", dateType = "date") {
   if (!str) return type == "str" ? "" : [];
   if (str == "0" || Number(str)) {
     return type != "str" ? type == 'datetime' || type == 'datetimearr' ? [`${GetDateAfter(Number(str), dateType)} ${mapDateTime(null, false)}`, `${GetDateAfter(0, dateType)} ${mapDateTime(null)}`] : [GetDateAfter(Number(str), dateType), GetDateAfter(0, dateType)] : GetDateAfter(Number(str), dateType);
