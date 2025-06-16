@@ -485,7 +485,8 @@ const savePlanLeft = () => {
             url: "sys/queryprogUser/add",
             method: "post",
             data: protData,
-            encry: true
+            // encry: true
+            encry: false
         }).then((res) => {
             saveAsModal.value = false
             proxy.$message({
