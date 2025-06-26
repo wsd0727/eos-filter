@@ -270,8 +270,9 @@ aside {
 // 修改 vxeselect 样式  只能放在全局 这个元素不在页面内，而是在整个页面中  样式放页面改没作用
 
 :deep(.vxe-select--panel) {
-  z-index: 999999 !important;
-  z-index: 9999 !important;
+  // z-index: 999999 !important;
+  // z-index: 9999 !important;
+  // z-index: 8 !important;
 }
 
 .vxe-select--panel-wrapper {

@@ -88,7 +88,7 @@ const AdcBottom = computed(() => {
 })
 
 const showHiImg = ref(false)
-const emit = defineEmits(["updateHeight", "handleCustomPlan"]);
+const emit = defineEmits(["updateHeight", "handleCustomPlan", "reloadTableData"]);
 
 const props = defineProps({
   queryConfig: {
@@ -106,6 +106,10 @@ const props = defineProps({
   sonEosFilterObj: {
     type: Object,
     default: () => { },
+  },
+  heightType: {
+    type: Number,
+    default: 1
   }
 });
 
@@ -158,7 +162,7 @@ const chooseRadioVal = ref(null);
 const chooseRadioObj = ref({});
 const myPlanList = ref([]);
 const settingFilterRef = ref(null);
-const clickRadio = (item, type) => {
+const clickRadio = (item, type, reset = false) => {
   chooseRadioVal.value = item?.BILLNO;
   chooseRadioObj.value = item;
   let query = {
@@ -183,6 +187,7 @@ const clickRadio = (item, type) => {
     data: query,
     encry: false
   }).then((res) => {
+    console.log("🍍💓🪵🔮💓 ~ clickRadio ~ res:", res)
     filterArr.value = res.RESULT;
     querySaveList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingQueryList.value = JSON.parse(JSON.stringify(res.RESULT));
@@ -191,23 +196,40 @@ const clickRadio = (item, type) => {
 
     //如没有值，代表走的财旺新写的，只能从subLise 接口拿数据给
     if (filterConfig.value.filterSeceletArr.length == 0) filterConfig.value.filterSeceletArr = JSON.parse(JSON.stringify(filterArr.value))
+
+    console.log("🍍💓🪵🔮💓 ~ clickRadio ~ reset:", reset)
+
+    if (reset) {
+      if (type == 1) {
+        emit('handleCustomPlan', {
+          type: "1",
+          PROGRAMID: chooseRadioVal.value,
+        })
+      }
+    } else {
+      searchBtn()
+    }
+
+
   })
 
 
-  if (type == 1) {
-    emit('handleCustomPlan', {
-      type: "1",
-      PROGRAMID: chooseRadioVal.value,
-    })
-    // emit("handleCustomPlan", {
-    //   type: "1",
-    //   PROGRAMID: chooseRadioVal.value,
-    // });
-  }
+  // if (type == 1) {
+  //   emit('handleCustomPlan', {
+  //     type: "1",
+  //     PROGRAMID: chooseRadioVal.value,
+  //   })
+  //   // emit("handleCustomPlan", {
+  //   //   type: "1",
+  //   //   PROGRAMID: chooseRadioVal.value,
+  //   // });
+  // }
 };
 // 查询按钮事件
 function searchBtn() {
   let QUERYS = querySaveList.value.map((ele) => {
+    console.log("🍍💓🪵🔮💓 ~ QUERYS ~ ele:", ele.DEFAULTVAL)
+
     // debugger
     return {
       FIELD: ele.FIELD,
@@ -221,6 +243,7 @@ function searchBtn() {
       QRYSUF: ele.QRYSUF,
     }
   });
+  console.log("🍍💓🪵🔮💓 ~ QUERYS ~ QUERYS:", QUERYS)
   emit("handleCustomPlan", {
     type: "2",
     PROGRAMID: chooseRadioVal.value,
@@ -237,9 +260,11 @@ const filterConfig = ref({
 watch(
   () => props.queryConfig,
   (value) => {
-    filterConfig.value.filterSeceletArr = props.queryConfig.filter(
-      (el) => el.ISSHOW != 0
-    );
+    if (value && value.length) {
+      filterConfig.value.filterSeceletArr = props.queryConfig.filter(
+        (el) => el.ISSHOW != 0
+      );
+    }
   },
   { immediate: true }
 );
@@ -297,7 +322,7 @@ const clickSavePlan = () => {
   }
 };
 const resetForm = () => {
-  clickRadio(chooseRadioObj.value, 1)
+  clickRadio(chooseRadioObj.value, 1, true)
 }
 // 调用保存方案
 const callAddition = () => {
@@ -386,9 +411,13 @@ const getPlanList = () => {
 };
 
 // 折叠和展示
-const FiltrationComHeight = ref("34px");
+// const FiltrationComHeight = ref("34px");
+// const FiltrationComHeight = ref("68px");
+const FiltrationComHeight = ref(props.heightType == 1 ? '34px' : props.heightType == 2 ? '68px' : '')
+
 const foldOUnfold = () => {
-  FiltrationComHeight.value = FiltrationComHeight.value == 'auto' ? "34px" : "auto"
+  // FiltrationComHeight.value = FiltrationComHeight.value == 'auto' ? "68px" : "auto"
+  FiltrationComHeight.value = FiltrationComHeight.value == 'auto' ? (props.heightType == 1 ? '34px' : props.heightType == 2 ? '68px' : '') : "auto"
   emit("updateHeight");
 };
 

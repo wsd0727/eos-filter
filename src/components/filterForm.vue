@@ -1329,7 +1329,7 @@ onMounted(() => {
 }
 
 :deep(.vxe-select--panel) {
-  z-index: 999999 !important;
+  // z-index: 999999 !important;
   // z-index: 9999 !important;
 }
 
