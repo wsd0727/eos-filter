@@ -62,7 +62,7 @@
       </template>
       <!-- ExDate 日期选择 -->
       <template v-else-if="currentConfig.CONTROLS == 'ExDate'">
-        <el-date-picker v-model="formData.DEFAULTVAL" clearable style="width: 100%" placeholder="请选择"
+        <el-date-picker v-model="formData.DEFAULTVAL" clearable style="width: 100%" placeholder="请选择" :type="currentConfig.SLOTCFG || 'date'"
           value-format="YYYY-MM-DD" />
       </template>
       <template v-else-if="currentConfig.CONTROLS == 'ExDateTime'">
