@@ -628,7 +628,7 @@ const Te = (e, L) => {
       }), t == "obj" ? { obj: N, importantObj: z } : H;
     }
     return Fe(() => {
-      ye();
+      ye(), (l.value.CONTROLS == "ExSelectGroup" || l.value.CONTROLS == "ExSelectSearch") && q("", l.value);
     }), (o, t) => {
       const v = F("vxe-option"), N = F("vxe-select"), z = F("el-date-picker"), H = F("el-input"), K = F("el-tree-select"), ne = F("el-option"), le = F("el-select"), Oe = F("el-button"), Z = F("eos-table"), ve = F("vxe-pulldown");
       return m(), I("div", Xt, [
@@ -1013,7 +1013,7 @@ const Te = (e, L) => {
       ]);
     };
   }
-}, Me = /* @__PURE__ */ Te(ul, [["__scopeId", "data-v-f945f8e4"]]), il = { class: "" }, dl = {
+}, Me = /* @__PURE__ */ Te(ul, [["__scopeId", "data-v-1020d6ef"]]), il = { class: "" }, dl = {
   __name: "filtrationCom",
   props: {
     filterConfig: {

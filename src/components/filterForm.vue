@@ -1202,6 +1202,10 @@ function GetUrlParams(url, backType) {
 onMounted(() => {
   setDataArrs()
   // inData()
+  if(currentConfig.value.CONTROLS == 'ExSelectGroup' || currentConfig.value.CONTROLS == 'ExSelectSearch'){
+    SelectQuery('', currentConfig.value)
+  }
+
 });
 </script>
 
