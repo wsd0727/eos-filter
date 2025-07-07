@@ -192,7 +192,6 @@ const clickRadio = (item, type, reset = false) => {
     settingQueryList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingFilterRef.value &&
       settingFilterRef.value.updateCurrentQueryList(res.RESULT);
-
     //如没有值，代表走的财旺新写的，只能从subList 接口拿数据给
     if (filterConfig.value.filterSeceletArr.length == 0) filterConfig.value.filterSeceletArr = JSON.parse(JSON.stringify(filterArr.value))
     if (reset) {
@@ -439,6 +438,7 @@ watch(
   () => props.menuID,
   (value) => {
     chooseRadioVal.value = null
+    filterConfig.value.filterSeceletArr = []
 
     getPlanList()
   },
