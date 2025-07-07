@@ -1001,21 +1001,32 @@ const showVcodeList = () => {
 const setDataArrs = () => {
   const validControls = ["ExSelectMultiple", "ExSelectMutiple", "ExCheckbox", "ExRegion", "ExArea", "ExDateRange", "ExDateTimeRange", "ExDate"];
   if (validControls.includes(currentConfig.value.CONTROLS) && props.formData.DEFAULTVAL && props.formData.DEFAULTVAL != '') {
-    console.log("🍍💓🪵🔮💓 ~ setDataArrs ~ props.formData.DEFAULTVAL:", props.formData.DEFAULTVAL)
-
     switch (currentConfig.value.CONTROLS) {
-      case 'ExDateTimeRange':
-        let [sD, eD] = initDate(props.formData.DEFAULTVAL ? props.formData.DEFAULTVAL : 0, 'datetimearr');
-        // a.EnumData[FIELD] = sD ? [sD, eD] : [];
-        // a[FIELD] = sD ? `${sD},${eD}` : '';
-        // a[FIELD + 'Arr'] = sD ? [sD, eD] : [];
-        props.formData.DEFAULTVALArr = sD ? [sD, eD] : []
-        props.formData.DEFAULTVAL = sD ? `${sD},${eD}` : ''
+      // case 'ExDateTimeRange':  // 日期时间区间适配-1 等
+
+      //   let [sD, eD] = initDate(props.formData.DEFAULTVAL ? props.formData.DEFAULTVAL : 0, 'datetimearr');
+      //   // a.EnumData[FIELD] = sD ? [sD, eD] : [];
+      //   // a[FIELD] = sD ? `${sD},${eD}` : '';
+      //   // a[FIELD + 'Arr'] = sD ? [sD, eD] : [];
+      //   props.formData.DEFAULTVALArr = sD ? [sD, eD] : []
+      //   props.formData.DEFAULTVAL = sD ? `${sD},${eD}` : ''
+      //   break;
+      case 'ExDateRange':
+        // if (props.formData.DEFAULTVAL.includes(',')) {
+        //   props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+        // } else {
+          props.formData.DEFAULTVAL = initDate(props.formData.DEFAULTVAL, 'arr', props.formData.SLOTCFG).join(',');
+          props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+        // }
+
         break;
       default:
+          console.log("defaultdefaultdefaultdefault", )
+
         props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
         break;
     }
+    
   }
 };
 

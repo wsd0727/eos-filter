@@ -3,9 +3,9 @@
 
 // import { useDict } from "./dict.js";
 
-const REG=''
-const useDict=''
-const useUserStore=''
+const REG = ''
+const useDict = ''
+const useUserStore = ''
 
 /**
  * 表格时间格式化
@@ -434,6 +434,7 @@ export function getAssetsFile(url) {
  */
 // TODO 重构传参
 export function getFormValue(data, hasTS = false, QueryData = {}) {
+  
   if (!Array.isArray(data)) return {};
   /**
    * EnumData 枚举字典
@@ -590,29 +591,65 @@ function getDictData(FIELD, OTHER) {
   return { _getDICT, EnumData }
 }
 
-export function initDate(str, type = "str", dateType = "date") {
-  if (!str) return type == "str" ? "" : [];
-  if (str == "0" || Number(str)) {
-    return type != "str" ? type == 'datetime' || type == 'datetimearr' ? [`${GetDateAfter(Number(str), dateType)} ${mapDateTime(null, false)}`, `${GetDateAfter(0, dateType)} ${mapDateTime(null)}`] : [GetDateAfter(Number(str), dateType), GetDateAfter(0, dateType)] : GetDateAfter(Number(str), dateType);
+// export function initDate(str, type = "str", dateType = "date") {
+//   if (!str) return type == "str" ? "" : [];
+//   if (str == "0" || Number(str)) {
+//     return type != "str" ? type == 'datetime' || type == 'datetimearr' ? [`${GetDateAfter(Number(str), dateType)} ${mapDateTime(null, false)}`, `${GetDateAfter(0, dateType)} ${mapDateTime(null)}`] : [GetDateAfter(Number(str), dateType), GetDateAfter(0, dateType)] : GetDateAfter(Number(str), dateType);
+//   } else {
+//     let valArr = [str],
+//       dateArr = [];
+//     if (type != "str") {
+//       let [Sd, Ed = "0"] = str.split("@");
+//       valArr = [Sd, Ed];
+//     }
+//     for (let i = 0; i < valArr.length; i++) {
+//       const [dateStr, timeStr = ""] = valArr[i].split("T");
+//       let date = "", time = mapDateTime(timeStr, i == 1);
+//       if (dateStr == "0" || Number(dateStr)) {
+//         date = GetDateAfter(Number(dateStr), dateType)
+//       } else {
+//         date = mapCalcDate(dateStr)
+//       }
+
+//       let datetime = type == 'datetime' || type == 'datetimearr' ? `${date} ${time}` : date
+//       dateArr.push(datetime)
+//     }
+//     return type != "str" ? dateArr : dateArr.join();
+//   }
+// }
+
+export function initDate(str, type = 'str', dateType = 'date') {
+  if (!str) return type == 'str' ? '' : [];
+  if (str == '0' || Number(str)) {
+    return type != 'str'
+      ? type == 'datetime' || type == 'datetimearr'
+        ? [
+          `${GetDateAfter(Number(str), dateType)} ${mapDateTime(null, false)}`,
+          `${GetDateAfter(0, dateType)} ${mapDateTime(null)}`,
+        ]
+        : [GetDateAfter(Number(str), dateType), GetDateAfter(0, dateType)]
+      : GetDateAfter(Number(str), dateType);
   } else {
     let valArr = [str],
       dateArr = [];
-    if (type != "str") {
-      let [Sd, Ed = "0"] = str.split("@");
+    if (type != 'str') {
+      let [Sd, Ed = '0'] = str.split('@');
       valArr = [Sd, Ed];
     }
     for (let i = 0; i < valArr.length; i++) {
-      const [dateStr, timeStr = ""] = valArr[i].split("T");
-      let date = "", time = mapDateTime(timeStr, i == 1);
-      if (dateStr == "0" || Number(dateStr)) {
-        date = GetDateAfter(Number(dateStr), dateType)
-      } else {
-        date = mapCalcDate(dateStr)
+      const [dateStr, timeStr = ''] = valArr[i].split('T');
+      let date = '',
+        time = mapDateTime(timeStr, i == 1);
+      if (dateStr == '0' || Number(dateStr)) {
+        date = GetDateAfter(Number(dateStr), dateType);
+      } 
+      else {
+        date = mapCalcDate(dateStr);
       }
-      let datetime = type == 'datetime' || type == 'datetimearr' ? `${date} ${time}` : date
-      dateArr.push(datetime)
+      let datetime = type == 'datetime' || type == 'datetimearr' ? `${date} ${time}` : date;
+      dateArr.push(datetime);
     }
-    return type != "str" ? dateArr : dateArr.join();
+    return type != 'str' ? dateArr : dateArr.join();
   }
 }
 

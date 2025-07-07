@@ -52,7 +52,7 @@ const queryFormData = ref({})
 const currentQueryList = ref([])
 
 onMounted(() => {
-    queryFormData.value = getFormValue(props.filterConfig.filterSeceletArr)
+    // queryFormData.value = getFormValue(props.filterConfig.filterSeceletArr)
 })
 
 function openModal(options){

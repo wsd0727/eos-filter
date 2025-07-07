@@ -20,7 +20,7 @@
           :chooseRadioObj @changeCurrentQueryList="changeCurrentQueryList" :settingArr="settingQueryList"
           @inputEnter="searchBtn" @openModal="openModal" />
         <div class="advancedQuery-rightBtn">
-          <img @click="searchBtn" src="@/assets/images/icon/search.png" alt="">
+          <img @click="searchBtn" title="搜索" src="@/assets/images/icon/search.png" alt="">
           <vxe-pulldown ref="pulldownRef" popup-class-name="dropdown-table" transfer style="max-width: 400px;">
             <template #default>
               <img @click="clickSettingBtn" @mouseover="showHiImg = true" @mouseout="showHiImg = false" v-if="showHiImg"
@@ -88,7 +88,7 @@ const AdcBottom = computed(() => {
 })
 
 const showHiImg = ref(false)
-const emit = defineEmits(["updateHeight", "handleCustomPlan", "reloadTableData"]);
+const emit = defineEmits(["updateHeight", "handleCustomPlan", "reloadTableData", "openModal"]);
 
 const props = defineProps({
   queryConfig: {
@@ -187,18 +187,14 @@ const clickRadio = (item, type, reset = false) => {
     data: query,
     encry: false
   }).then((res) => {
-    console.log("🍍💓🪵🔮💓 ~ clickRadio ~ res:", res)
     filterArr.value = res.RESULT;
     querySaveList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingQueryList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingFilterRef.value &&
       settingFilterRef.value.updateCurrentQueryList(res.RESULT);
 
-    //如没有值，代表走的财旺新写的，只能从subLise 接口拿数据给
+    //如没有值，代表走的财旺新写的，只能从subList 接口拿数据给
     if (filterConfig.value.filterSeceletArr.length == 0) filterConfig.value.filterSeceletArr = JSON.parse(JSON.stringify(filterArr.value))
-
-    console.log("🍍💓🪵🔮💓 ~ clickRadio ~ reset:", reset)
-
     if (reset) {
       if (type == 1) {
         emit('handleCustomPlan', {
@@ -207,7 +203,10 @@ const clickRadio = (item, type, reset = false) => {
         })
       }
     } else {
-      searchBtn()
+      // 为了让可以拿到日期配置-1 等默认值时候正常调接口
+      setTimeout(() => {
+        searchBtn()
+      }, 200);
     }
 
 
@@ -228,8 +227,6 @@ const clickRadio = (item, type, reset = false) => {
 // 查询按钮事件
 function searchBtn() {
   let QUERYS = querySaveList.value.map((ele) => {
-    console.log("🍍💓🪵🔮💓 ~ QUERYS ~ ele:", ele.DEFAULTVAL)
-
     // debugger
     return {
       FIELD: ele.FIELD,
@@ -243,7 +240,6 @@ function searchBtn() {
       QRYSUF: ele.QRYSUF,
     }
   });
-  console.log("🍍💓🪵🔮💓 ~ QUERYS ~ QUERYS:", QUERYS)
   emit("handleCustomPlan", {
     type: "2",
     PROGRAMID: chooseRadioVal.value,
@@ -413,11 +409,11 @@ const getPlanList = () => {
 // 折叠和展示
 // const FiltrationComHeight = ref("34px");
 // const FiltrationComHeight = ref("68px");
-const FiltrationComHeight = ref(props.heightType == 1 ? '34px' : props.heightType == 2 ? '68px' : '')
+const FiltrationComHeight = ref(props.heightType == 1 ? '34px' : props.heightType == 2 ? '68px' : '34px')
 
 const foldOUnfold = () => {
   // FiltrationComHeight.value = FiltrationComHeight.value == 'auto' ? "68px" : "auto"
-  FiltrationComHeight.value = FiltrationComHeight.value == 'auto' ? (props.heightType == 1 ? '34px' : props.heightType == 2 ? '68px' : '') : "auto"
+  FiltrationComHeight.value = FiltrationComHeight.value == 'auto' ? (props.heightType == 1 ? '34px' : props.heightType == 2 ? '68px' : '34px') : "auto"
   emit("updateHeight");
 };
 
