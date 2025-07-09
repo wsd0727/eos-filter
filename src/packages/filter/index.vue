@@ -317,7 +317,20 @@ const clickSavePlan = () => {
   }
 };
 const resetForm = () => {
-  clickRadio(chooseRadioObj.value, 1, true)
+  const protData = {
+    ...props.menuID,
+    PROGRAMID: chooseRadioVal.value,
+  };
+
+  request({
+    url: "/sys/component/clearQryCache",
+    method: "post",
+    data: protData,
+    encry: false
+  }).then((res) => {
+    clickRadio(chooseRadioObj.value, 1, true)
+  })
+
 }
 // 调用保存方案
 const callAddition = () => {
