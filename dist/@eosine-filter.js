@@ -2794,7 +2794,8 @@ const Sl = { class: "container" }, yl = {
         if (B.value = C.RESULT, P.value = [], S.value = [], fe.value = [], se.value && se.value.updateCurrentQueryList([]), B.value.length) {
           let k = B.value.filter((o) => o.ISDEFAULT == 1);
           V.value || (V.value = k.length ? k[0].BILLNO : B.value[0].BILLNO, h(k.length ? k[0] : B.value[0], 0));
-        }
+        } else
+          u();
       });
     }, Ae = d(b.heightType == 1 ? "34px" : b.heightType == 2 ? "68px" : "34px"), Ie = () => {
       Ae.value = Ae.value == "auto" ? b.heightType == 1 ? "34px" : b.heightType == 2 ? "68px" : "34px" : "auto", T("updateHeight");
@@ -2967,7 +2968,7 @@ const Sl = { class: "container" }, yl = {
       ], 4);
     };
   }
-}, xe = /* @__PURE__ */ ye(Un, [["__scopeId", "data-v-1fcdbf40"]]);
+}, xe = /* @__PURE__ */ ye(Un, [["__scopeId", "data-v-afa2fde3"]]);
 xe.name = "eos-filter";
 xe.install = function(e) {
   e.component("eos-filter", xe);

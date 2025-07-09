@@ -414,6 +414,8 @@ const getPlanList = () => {
 
         clickRadio(newArr.length ? newArr[0] : myPlanList.value[0], 0);
       }
+    } else { // 没有方案默认调用查询
+      searchBtn()
     }
   })
 };
