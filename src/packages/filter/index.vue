@@ -194,34 +194,34 @@ const clickRadio = (item, type, reset = false) => {
       settingFilterRef.value.updateCurrentQueryList(res.RESULT);
     //如没有值，代表走的财旺新写的，只能从subList 接口拿数据给
     if (filterConfig.value.filterSeceletArr.length == 0) filterConfig.value.filterSeceletArr = JSON.parse(JSON.stringify(filterArr.value))
-    if (reset) {
-      if (type == 1) {
-        emit('handleCustomPlan', {
-          type: "1",
-          PROGRAMID: chooseRadioVal.value,
-        })
-      }
-    } else {
-      // 为了让可以拿到日期配置-1 等默认值时候正常调接口
-      setTimeout(() => {
-        searchBtn()
-      }, 200);
-    }
+    // if (reset) {
+    //   if (type == 1) {
+    //     emit('handleCustomPlan', {
+    //       type: "1",
+    //       PROGRAMID: chooseRadioVal.value,
+    //     })
+    //   }
+    // } else {
+    //   // 为了让可以拿到日期配置-1 等默认值时候正常调接口
+    //   setTimeout(() => {
+    //     searchBtn()
+    //   }, 200);
+    // }
 
 
   })
 
 
-  // if (type == 1) {
-  //   emit('handleCustomPlan', {
-  //     type: "1",
-  //     PROGRAMID: chooseRadioVal.value,
-  //   })
-  //   // emit("handleCustomPlan", {
-  //   //   type: "1",
-  //   //   PROGRAMID: chooseRadioVal.value,
-  //   // });
-  // }
+  if (type == 1) {
+    emit('handleCustomPlan', {
+      type: "1",
+      PROGRAMID: chooseRadioVal.value,
+    })
+    // emit("handleCustomPlan", {
+    //   type: "1",
+    //   PROGRAMID: chooseRadioVal.value,
+    // });
+  }
 };
 // 查询按钮事件
 function searchBtn() {
@@ -415,7 +415,7 @@ const getPlanList = () => {
         clickRadio(newArr.length ? newArr[0] : myPlanList.value[0], 0);
       }
     } else { // 没有方案默认调用查询
-      searchBtn()
+      // searchBtn()
     }
   })
 };

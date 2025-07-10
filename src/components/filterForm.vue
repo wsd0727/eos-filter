@@ -1012,12 +1012,12 @@ const setDataArrs = () => {
       //   props.formData.DEFAULTVAL = sD ? `${sD},${eD}` : ''
       //   break;
       case 'ExDateRange':
-        // if (props.formData.DEFAULTVAL.includes(',')) {
-        //   props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
-        // } else {
+        if (props.formData.DEFAULTVAL.includes(',')) {
+          props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+        } else {
           props.formData.DEFAULTVAL = initDate(props.formData.DEFAULTVAL, 'arr', props.formData.SLOTCFG).join(',');
           props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
-        // }
+        }
 
         break;
       default:
@@ -1356,10 +1356,13 @@ onMounted(() => {
 :deep(.el-range-editor.el-input__wrapper) {
   // padding: 0 4px !important;
   padding: 0 !important;
+  box-shadow: none;
+  height: 26px;
 }
 
 :deep(.el-date-editor .el-range-separator) {
   padding: 0 !important;
 
 }
+
 </style>
