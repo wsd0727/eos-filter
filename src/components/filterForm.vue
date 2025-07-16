@@ -62,8 +62,8 @@
       </template>
       <!-- ExDate 日期选择 -->
       <template v-else-if="currentConfig.CONTROLS == 'ExDate'">
-        <el-date-picker v-model="formData.DEFAULTVAL" clearable style="width: 100%" placeholder="请选择" :type="currentConfig.SLOTCFG || 'date'"
-          value-format="YYYY-MM-DD" />
+        <el-date-picker v-model="formData.DEFAULTVAL" clearable style="width: 100%" placeholder="请选择"
+          :type="currentConfig.SLOTCFG || 'date'" :value-format="currentConfig.SLOTCFG=='year'?'YYYY':currentConfig.SLOTCFG=='month'?'YYYY-MM':'YYYY-MM-DD'"  />
       </template>
       <template v-else-if="currentConfig.CONTROLS == 'ExDateTime'">
         <el-date-picker v-model="formData.DEFAULTVAL" clearable type="datetime" value-format="YYYY-MM-DD HH:mm:ss"
@@ -999,6 +999,7 @@ const showVcodeList = () => {
 }
 
 const setDataArrs = () => {
+  // QUERYTYPE == 'Between' || currentConfig.QUERYTYPE == 'NotBetween'
   const validControls = ["ExSelectMultiple", "ExSelectMutiple", "ExCheckbox", "ExRegion", "ExArea", "ExDateRange", "ExDateTimeRange", "ExDate"];
   if (validControls.includes(currentConfig.value.CONTROLS) && props.formData.DEFAULTVAL && props.formData.DEFAULTVAL != '') {
     switch (currentConfig.value.CONTROLS) {
@@ -1012,8 +1013,23 @@ const setDataArrs = () => {
       //   props.formData.DEFAULTVAL = sD ? `${sD},${eD}` : ''
       //   break;
       case 'ExDateRange':
+
+        // let reg = /^((?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)-02-29)$/;
+        // if (!reg.test(str1)) {
+        //   alert("开始日期格式不正确，正确格式为：yyyy-mm-dd");
+        //   return false;
+        // }
+
         if (props.formData.DEFAULTVAL.includes(',')) {
-          props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+          // props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+          let newArr = props.formData.DEFAULTVAL.split(",");
+          let reg = /^((?!0000)[0-9]{4}-((0[1-9]|1[0-2])-(0[1-9]|1[0-9]|2[0-8])|(0[13-9]|1[0-2])-(29|30)|(0[13578]|1[02])-31)|([0-9]{2}(0[48]|[2468][048]|[13579][26])|(0[48]|[2468][048]|[13579][26])00)-02-29)$/;
+          if (reg.test(newArr[0])) {  // 判断数组第一个是否符合日期格式 符合就正常拆分回显，不符合走王俊的方法
+            props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",")
+          } else {
+            props.formData.DEFAULTVAL = initDate(props.formData.DEFAULTVAL, 'arr', props.formData.SLOTCFG).join(',');
+            props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
+          }
         } else {
           props.formData.DEFAULTVAL = initDate(props.formData.DEFAULTVAL, 'arr', props.formData.SLOTCFG).join(',');
           props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
@@ -1021,12 +1037,12 @@ const setDataArrs = () => {
 
         break;
       default:
-          console.log("defaultdefaultdefaultdefault", )
+        console.log("defaultdefaultdefaultdefault",)
 
         props.formData.DEFAULTVALArr = props.formData.DEFAULTVAL.split(",");
         break;
     }
-    
+
   }
 };
 
@@ -1202,7 +1218,7 @@ function GetUrlParams(url, backType) {
 onMounted(() => {
   setDataArrs()
   // inData()
-  if(currentConfig.value.CONTROLS == 'ExSelectGroup' || currentConfig.value.CONTROLS == 'ExSelectSearch'){
+  if (currentConfig.value.CONTROLS == 'ExSelectGroup' || currentConfig.value.CONTROLS == 'ExSelectSearch') {
     SelectQuery('', currentConfig.value)
   }
 
@@ -1364,5 +1380,4 @@ onMounted(() => {
   padding: 0 !important;
 
 }
-
 </style>

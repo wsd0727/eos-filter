@@ -252,37 +252,6 @@ const filterConfig = ref({
   filterSeceletArr1: [],
 });
 
-watch(
-  () => props.queryConfig,
-  (value) => {
-    if (value && value.length) {
-      filterConfig.value.filterSeceletArr = props.queryConfig.filter(
-        (el) => el.ISSHOW != 0
-      );
-    }
-  },
-  { immediate: true }
-);
-
-watch(
-  () => props.sonEosFilterObj,
-  (value) => {
-    if (!value || !value.DEFAULTVAL) return
-
-    let newArr = JSON.parse(JSON.stringify(querySaveList.value))
-    newArr[currentOptions.value.currentIndex].DEFAULTVAL = value?.DEFAULTVAL || ''
-    newArr[currentOptions.value.currentIndex].DEFAULTVAL2 = value?.DEFAULTVAL2 || ''
-
-    if (value.openModalType == 'search') {
-      filtrationComRef.value && filtrationComRef.value.updateCurrentQueryList(newArr);
-
-    } else if (value.openModalType == 'setting') {
-      settingFilterRef.value && settingFilterRef.value.updateCurrentQueryList(newArr);
-    }
-
-  },
-  { immediate: true }
-);
 const popoverRef = ref(null);
 const visible = ref(false);
 const clostPopver = () => {
@@ -449,8 +418,10 @@ const delFilterArr = (index) => {
   emit("updateHeight", index);
 };
 
+
+
 watch(
-  () => props.menuID,
+  () => props.menuID.PAGEID,
   (value) => {
     chooseRadioVal.value = null
     filterConfig.value.filterSeceletArr = []
@@ -459,6 +430,39 @@ watch(
   },
   { immediate: true }
 );
+
+watch(
+  () => props.queryConfig,
+  (value) => {
+    if (value && value.length) {
+      filterConfig.value.filterSeceletArr = props.queryConfig.filter(
+        (el) => el.ISSHOW != 0
+      );
+    }
+  },
+  { immediate: true }
+);
+
+watch(
+  () => props.sonEosFilterObj,
+  (value) => {
+    if (!value || !value.DEFAULTVAL) return
+
+    let newArr = JSON.parse(JSON.stringify(querySaveList.value))
+    newArr[currentOptions.value.currentIndex].DEFAULTVAL = value?.DEFAULTVAL || ''
+    newArr[currentOptions.value.currentIndex].DEFAULTVAL2 = value?.DEFAULTVAL2 || ''
+
+    if (value.openModalType == 'search') {
+      filtrationComRef.value && filtrationComRef.value.updateCurrentQueryList(newArr);
+
+    } else if (value.openModalType == 'setting') {
+      settingFilterRef.value && settingFilterRef.value.updateCurrentQueryList(newArr);
+    }
+
+  },
+  { immediate: true }
+);
+
 
 defineExpose({
   openShowModal,
