@@ -163,6 +163,8 @@ const chooseRadioObj = ref({});
 const myPlanList = ref([]);
 const settingFilterRef = ref(null);
 const clickRadio = (item, type, reset = false) => {
+  filterConfig.value.filterSeceletArr = []
+
   chooseRadioVal.value = item?.BILLNO;
   chooseRadioObj.value = item;
   let query = {
@@ -187,12 +189,14 @@ const clickRadio = (item, type, reset = false) => {
     data: query,
     encry: false
   }).then((res) => {
+
     filterArr.value = res.RESULT;
     querySaveList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingQueryList.value = JSON.parse(JSON.stringify(res.RESULT));
     settingFilterRef.value &&
       settingFilterRef.value.updateCurrentQueryList(res.RESULT);
     //如没有值，代表走的财旺新写的，只能从subList 接口拿数据给
+
     if (filterConfig.value.filterSeceletArr.length == 0) filterConfig.value.filterSeceletArr = JSON.parse(JSON.stringify(filterArr.value))
     // if (reset) {
     //   if (type == 1) {
